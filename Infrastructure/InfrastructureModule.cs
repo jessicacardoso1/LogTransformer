@@ -30,6 +30,7 @@ namespace LogTransformer.Infrastructure
         {
             services.AddScoped<ILogEntryRepository, LogEntryRepository>();
             services.AddScoped<ITransformedLogRepository, TransformedLogRepository>();
+            services.AddHttpClient<IFileService, FileService>();
             return services;
         }
     }
