@@ -5,13 +5,14 @@ namespace LogTransformer.Core.Entities
 {
     public class LogEntry : BaseEntity
     {
-        public string Provider { get; set; } = "MINHA CDN";
-        public string HttpMethod { get; set; }
-        public int StatusCode { get; set; }
-        public string UriPath { get; set; }
-        public double TimeTaken { get; set; }
-        public int ResponseSize { get; set; }
-        public string CacheStatus { get; set; }
+        public LogEntry(string originalContent, string sourceFileName = null)
+        {
+            OriginalContent = originalContent;
+            SourceFileName = sourceFileName;
+        }
+
+        public string OriginalContent { get; private set; }
+        public string SourceFileName { get; private set; }
     }
 
 }

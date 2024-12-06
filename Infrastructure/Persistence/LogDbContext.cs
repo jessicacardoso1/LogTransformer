@@ -10,19 +10,31 @@ namespace LogTransformer.Infrastructure.Persistence
 
         public LogDbContext(DbContextOptions<LogDbContext> options) : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<LogEntry>().HasKey(l => l.Id);
-            modelBuilder.Entity<TransformedLog>().HasKey(t => t.Id);
+            // Configuração para LogEntry
+            modelBuilder.Entity<LogEntry>(entity =>
+            {
+                entity.HasKey(l => l.Id);
 
-            modelBuilder.Entity<TransformedLog>()
-                .HasOne(t => t.OriginalLog)
-                .WithMany()
-                .HasForeignKey(t => t.OriginalLogId);
+                entity.Property(l => l.OriginalContent)
+                      .IsRequired();
+            });
+
+            modelBuilder.Entity<TransformedLog>(entity =>
+            {
+                entity.HasKey(t => t.Id);
+
+                entity.Property(t => t.TransformedContent)
+                      .IsRequired();
+
+                entity.HasOne(t => t.OriginalLog) 
+                      .WithMany()
+                      .HasForeignKey(t => t.OriginalLogId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
         }
     }
-
 }
