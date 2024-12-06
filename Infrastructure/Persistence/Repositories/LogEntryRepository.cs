@@ -8,26 +8,31 @@ namespace LogTransformer.Infrastructure.Persistence.Repositories
 {
     public class LogEntryRepository : Repository<LogEntry>, ILogEntryRepository
     {
+        private readonly LogDbContext _context;
+
         public LogEntryRepository(LogDbContext context) : base(context)
         {
+            _context = context;
         }
 
-        // Buscar todos os logs salvos
         public async Task<IEnumerable<LogEntry>> GetAllLogsAsync()
         {
             return await GetAllAsync();
         }
 
-        // Buscar log de entrada por ID
         public async Task<LogEntry> GetLogByIdAsync(int id)
         {
             return await GetByIdAsync(id);
         }
 
-        // Salvar um novo Log de Entrada
         public async Task<int> SaveLogAsync(LogEntry logEntry)
         {
             return await AddAsync(logEntry);
+        }
+        public async Task SaveTransformedLogAsync(TransformedLog transformedLog)
+        {
+            await _context.TransformedLogs.AddAsync(transformedLog);
+            await _context.SaveChangesAsync();
         }
     }
 }

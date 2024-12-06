@@ -11,5 +11,7 @@ namespace LogTransformer.Core.Repositories
         Task<TransformedLog> GetTransformedLogByIdAsync(int id);
 
         Task<int> SaveTransformedLogAsync(TransformedLog transformedLog);
+        string Transform(string logContent);
+        Task<TransformedLog> GetTransformedLogByLogIdAsync(int id);
     }
 }
