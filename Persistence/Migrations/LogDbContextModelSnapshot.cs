@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace LogTransformer.Infrastructure.Persistence.Migrations
+namespace LogTransformer.Persistence.Migrations
 {
     [DbContext(typeof(LogDbContext))]
     partial class LogDbContextModelSnapshot : ModelSnapshot
@@ -25,21 +25,12 @@ namespace LogTransformer.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CacheStatus");
-
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<string>("HttpMethod");
+                    b.Property<string>("OriginalContent")
+                        .IsRequired();
 
-                    b.Property<string>("Provider");
-
-                    b.Property<int>("ResponseSize");
-
-                    b.Property<int>("StatusCode");
-
-                    b.Property<double>("TimeTaken");
-
-                    b.Property<string>("UriPath");
+                    b.Property<string>("SourceFileName");
 
                     b.HasKey("Id");
 
@@ -58,7 +49,8 @@ namespace LogTransformer.Infrastructure.Persistence.Migrations
 
                     b.Property<int>("OriginalLogId");
 
-                    b.Property<string>("TransformedContent");
+                    b.Property<string>("TransformedContent")
+                        .IsRequired();
 
                     b.HasKey("Id");
 

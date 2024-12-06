@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogTransformer.Persistence.Migrations
 {
     [DbContext(typeof(LogDbContext))]
-    [Migration("20241205014931_AddnewColumn")]
-    partial class AddnewColumn
+    [Migration("20241205150014_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,21 +27,12 @@ namespace LogTransformer.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CacheStatus");
-
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<string>("HttpMethod");
+                    b.Property<string>("OriginalContent")
+                        .IsRequired();
 
-                    b.Property<string>("Provider");
-
-                    b.Property<int>("ResponseSize");
-
-                    b.Property<int>("StatusCode");
-
-                    b.Property<double>("TimeTaken");
-
-                    b.Property<string>("UriPath");
+                    b.Property<string>("SourceFileName");
 
                     b.HasKey("Id");
 
@@ -60,7 +51,8 @@ namespace LogTransformer.Persistence.Migrations
 
                     b.Property<int>("OriginalLogId");
 
-                    b.Property<string>("TransformedContent");
+                    b.Property<string>("TransformedContent")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
