@@ -8,6 +8,9 @@ using LogTransformer.Application.Commands.InsertLogEntry;
 using LogTransformer.Application.Queries.GetAllLogsEntry;
 using LogTransformer.Application.Commands.TransformLog;
 using System.Collections.Generic;
+using LogTransformer.Application.Queries.GetAllTransformedLogs;
+using LogTransformer.Application.Queries.GetLogEntryById;
+using LogTransformer.Application.Queries.GetTransformedLogById;
 
 namespace LogTransformer.Api.Controllers
 {
@@ -27,11 +30,9 @@ namespace LogTransformer.Api.Controllers
         }
 
         [HttpGet("saved")]
-        public async Task<IActionResult> GetSavedLogs(string search = "", int page = 0, int size = 3)
+        public async Task<IActionResult> GetSavedLogs(int page = 0, int size = 3)
         {
-            var query = new GetAllLogsEntryQuery(search);
-
-            var result = await _mediator.Send(query);
+            var result = await _mediator.Send(new GetAllLogsEntryQuery());
 
             return Ok(result);
         }
@@ -39,36 +40,54 @@ namespace LogTransformer.Api.Controllers
         [HttpGet("transformed")]
         public async Task<IActionResult> GetTransformedLogs()
         {
-            var logs = await _transformedLogRepository.GetAllTransformedLogsAsync();
-            return Ok(logs);
+            var result = await _mediator.Send(new GetAllTransformedLogQuery());
+
+            return Ok(result);
         }
 
         [HttpGet("saved/{id}")]
         public async Task<IActionResult> GetSavedLogById(int id)
         {
-            var log = await _logEntryRepository.GetLogByIdAsync(id);
-            if (log == null)
+            var result = await _mediator.Send(new GetLogEntryByIdQuery(id));
+
+            if (!result.IsSuccess)
             {
-                return NotFound();
+                return BadRequest(result.Message);
             }
-            return Ok(log);
+
+            return Ok(result);
         }
 
         [HttpGet("transformed/{id}")]
         public async Task<IActionResult> GetTransformedLogById(int id)
         {
-            var log = await _transformedLogRepository.GetTransformedLogByIdAsync(id);
-            if (log == null)
+            var result = await _mediator.Send(new GetTransformedLogByIdQuery(id));
+
+            if (!result.IsSuccess)
             {
-                return NotFound();
+                return BadRequest(result.Message);
             }
-            return Ok(log);
+
+            return Ok(result);
         }
+
+        [HttpGet("transformedByLog/{id}")]
+        public async Task<IActionResult> GetTransformedLogByIdLog(int id)
+        {
+            var result = await _mediator.Send(new GetTransformedLogByLogIdQuery(id));
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Message);
+            }
+
+            return Ok(result);
+        }
+
 
         [HttpPost("save")]
         public async Task<IActionResult> SaveLog([FromBody] InsertLogEntryCommand command)
         {
-
             var result = await _mediator.Send(command);
 
             if (!result.IsSuccess)
@@ -76,7 +95,7 @@ namespace LogTransformer.Api.Controllers
                 return BadRequest(result.Message);
             }
 
-            return CreatedAtAction(nameof(GetSavedLogById), new { id = result.Data }, command);
+            return CreatedAtAction(nameof(GetTransformedLogById), new { id = result.Data }, command);
         }
 
 
@@ -91,21 +110,5 @@ namespace LogTransformer.Api.Controllers
 
             return BadRequest(result.Message);
         }
-
-        [HttpGet("sample-log")]
-        public IActionResult GetSampleLog()
-        {
-            var logContents = new List<string>
-            {
-                "312|200|HIT|\"GET /robots.txt HTTP/1.1\"|100.2",
-                "400|404|MISS|\"POST /index.html HTTP/1.1\"|150.5",
-                "512|200|HIT|\"GET /home HTTP/1.1\"|90.3"
-            };
-
-            var concatenatedLogs = string.Join("\n", logContents);
-
-            return Ok(logContents);
-        }
-
     }
 }
