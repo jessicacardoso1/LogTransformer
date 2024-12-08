@@ -78,7 +78,7 @@ namespace LogTransformer
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LogTransformer API V1");
-                c.RoutePrefix = string.Empty; /
+                c.RoutePrefix = string.Empty;
             });
 
             //app.UseHttpsRedirection();

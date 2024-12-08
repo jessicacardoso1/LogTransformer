@@ -1,9 +1,12 @@
-﻿using LogTransformer.Core.Repositories;
+﻿using LogTransformer.Application.Services;
+using LogTransformer.Core.Repositories;
 using LogTransformer.Infrastructure.Persistence;
 using LogTransformer.Infrastructure.Persistence.Repositories;
+using LogTransformer.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Builder;
 
 namespace LogTransformer.Infrastructure
 {
