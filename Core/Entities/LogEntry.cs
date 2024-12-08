@@ -5,14 +5,12 @@ namespace LogTransformer.Core.Entities
 {
     public class LogEntry : BaseEntity
     {
-        public LogEntry(string originalContent, string sourceFileName = null)
+        public LogEntry(string originalContent)
         {
             OriginalContent = originalContent;
-            SourceFileName = sourceFileName;
         }
 
         public string OriginalContent { get; private set; }
-        public string SourceFileName { get; private set; }
     }
 
 }
