@@ -14,7 +14,6 @@ namespace LogTransformer.Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configuração para LogEntry
             modelBuilder.Entity<LogEntry>(entity =>
             {
                 entity.HasKey(l => l.Id);
@@ -26,9 +25,6 @@ namespace LogTransformer.Infrastructure.Persistence
             modelBuilder.Entity<TransformedLog>(entity =>
             {
                 entity.HasKey(t => t.Id);
-
-                entity.Property(t => t.TransformedContent)
-                      .IsRequired();
 
                 entity.HasOne(t => t.OriginalLog) 
                       .WithMany()
