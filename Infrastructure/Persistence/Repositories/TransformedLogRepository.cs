@@ -1,6 +1,7 @@
 ﻿using LogTransformer.Core.Entities;
 using LogTransformer.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -20,21 +21,25 @@ namespace LogTransformer.Infrastructure.Persistence.Repositories
 
         public async Task<IEnumerable<TransformedLog>> GetAllTransformedLogsAsync()
         {
-            return await GetAllAsync();
+            return await _context.TransformedLogs
+            .Include(t => t.OriginalLog)
+            .ToListAsync();
         }
 
         public async Task<TransformedLog> GetTransformedLogByIdAsync(int id)
         {
-            return await GetByIdAsync(id);
+            return await _context.TransformedLogs
+                .Include(t => t.OriginalLog)
+                .SingleOrDefaultAsync(p => p.Id == id);
         }
 
-        public Task<TransformedLog> GetTransformedLogByLogIdAsync(int id)
+        public Task<List<TransformedLog>> GetTransformedLogsByLogIdAsync(int id)
         {
-           return _context.TransformedLogs
-                .Include(p => p.OriginalLog)
-                .SingleOrDefaultAsync(p => p.OriginalLogId == id);
+            return _context.TransformedLogs
+                 .Include(p => p.OriginalLog)
+                 .Where(log => log.OriginalLogId == id)
+                 .ToListAsync();
         }
-
         public async Task<int> SaveTransformedLogAsync(TransformedLog transformedLog)
         {
             return await AddAsync(transformedLog);
@@ -59,7 +64,7 @@ namespace LogTransformer.Infrastructure.Persistence.Repositories
             }
 
             return transformedContent.ToString().TrimEnd();
-        }
+        }      
 
     }
 }

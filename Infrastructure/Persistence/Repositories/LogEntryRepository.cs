@@ -29,10 +29,5 @@ namespace LogTransformer.Infrastructure.Persistence.Repositories
         {
             return await AddAsync(logEntry);
         }
-        public async Task SaveTransformedLogAsync(TransformedLog transformedLog)
-        {
-            await _context.TransformedLogs.AddAsync(transformedLog);
-            await _context.SaveChangesAsync();
-        }
     }
 }
