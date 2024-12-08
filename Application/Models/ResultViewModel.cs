@@ -37,7 +37,7 @@
             return new ResultViewModel<T>(data, true, string.Empty);
         }
 
-        public static ResultViewModel<T> Error(string message)
+        public static new ResultViewModel<T> Error(string message)
         {
             return new ResultViewModel<T>(default, false, message);
         }
