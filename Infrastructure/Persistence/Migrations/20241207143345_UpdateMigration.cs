@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace LogTransformer.Persistence.Migrations
+namespace LogTransformer.Infrastructure.Persistence.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class UpdateMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,8 +15,7 @@ namespace LogTransformer.Persistence.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreatedAt = table.Column<DateTime>(nullable: false),
-                    OriginalContent = table.Column<string>(nullable: false),
-                    SourceFileName = table.Column<string>(nullable: true)
+                    OriginalContent = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,9 +29,15 @@ namespace LogTransformer.Persistence.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreatedAt = table.Column<DateTime>(nullable: false),
-                    TransformedContent = table.Column<string>(nullable: false),
-                    OriginalLogId = table.Column<int>(nullable: false),
-                    FilePath = table.Column<string>(nullable: true)
+                    Provider = table.Column<string>(nullable: true),
+                    HttpMethod = table.Column<string>(nullable: true),
+                    StatusCode = table.Column<int>(nullable: false),
+                    UriPath = table.Column<string>(nullable: true),
+                    TimeTaken = table.Column<int>(nullable: false),
+                    ResponseSize = table.Column<int>(nullable: false),
+                    CacheStatus = table.Column<string>(nullable: true),
+                    FilePath = table.Column<string>(nullable: true),
+                    OriginalLogId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
