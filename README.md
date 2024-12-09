@@ -33,7 +33,10 @@ Projeto para transformar logs em formatos pré-definidos. Este projeto foi desen
 Envie um comando com o `LogId` preenchido:
 
 ```json
-{ "logId": 123, "outputFormat": "file" }
+{
+  "logId": 1,
+  "outputFormat": "file"
+}
 ```
 
 ### Via URL do Log
