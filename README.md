@@ -51,8 +51,8 @@ Envie um comando com o `LogId` preenchido:
 ```
 
 ### Formato de Saída
+
 O parâmetro outputFormat determina como o log transformado será retornado:
 
-file: O log transformado é salvo como um arquivo, e o caminho do arquivo é retornado.
-
-content: O log transformado é retornado como uma string de texto formatada.
+- **file**: O log transformado é salvo como um arquivo, e o caminho do arquivo é retornado.
+- **content**: O log transformado é retornado como uma string de texto formatada.
