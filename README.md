@@ -32,23 +32,27 @@ Projeto para transformar logs em formatos pré-definidos. Este projeto foi desen
 
 Envie um comando com o `LogId` preenchido:
 
+```json
 {
   "logId": 1,
   "outputFormat": "file"
 }
+```
 
 ### Via URL do Log
 
 Envie um comando com o `LogId` preenchido:
 
+```json
 {
   "LogUrl": "https://s3.amazonaws.com/uux-itaas-static/minha-cdn-logs/input-01.txt",
   "OutputFormat": "content"
 }
+```
 
 ### Formato de Saída
+
 O parâmetro outputFormat determina como o log transformado será retornado:
 
-file: O log transformado é salvo como um arquivo, e o caminho do arquivo é retornado.
-
-content: O log transformado é retornado como uma string de texto formatada.
+- **file**: O log transformado é salvo como um arquivo, e o caminho do arquivo é retornado.
+- **content**: O log transformado é retornado como uma string de texto formatada.
